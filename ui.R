@@ -1,3 +1,6 @@
+library(shiny)
+library(leaflet)
+
 navbarPage("Focos", id = "nav",
 
            tabPanel("Interactive map",
@@ -22,18 +25,20 @@ navbarPage("Focos", id = "nav",
                                       selectizeInput(
                                           inputId = "city",
                                           label = "Cidade",
-                                          choices = list("", "Jacareí", "São José dos Campos"),
+                                          choices = list(""),
                                           options = list(maxOptions = 5)
                                       ),
                                       dateRangeInput("daterange", "Filtro de intervalo:",
-                                                     start = "2024-07-01",
+                                                     start = "2024-06-01",
                                                      end   = "2024-08-11"),
-                                      # TODO: add filtro satelite de referencia
-                                      # Plotss
+                                      sliderInput("slider", "Cobertura de nuvem:",
+                                                  min = 0, max = 100,
+                                                  value = 20, step = 10,
+                                                  post = "%", sep = ","),
+                                      # Plots
                                       plotOutput("histCentile", height = 200),
                                       plotOutput("scatterCollegeIncome", height = 250)
                         ),
-
                         tags$div(id = "cite", "Trabalho de disciplina - Geoinformática")
                     )
            ),
