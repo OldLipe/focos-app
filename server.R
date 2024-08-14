@@ -22,15 +22,15 @@ function(input, output, session) {
             leaflet::addWMSTiles(
                 baseUrl = "https://terrabrasilis.dpi.inpe.br/geoserver/prodes-brasil-nb/ows?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=prodes-brasil-nb%3Aprodes_brasil&STYLES=&WIDTH=256&HEIGHT=256&BBOX=-63.198620,-10.030140,-62.812901,-9.645115&FORMAT=image%2Fpng",
                 layers = "prodes-brasil-nb:prodes_brasil",
-                group = "PRODES"
+                group = "PRODES 2023"
             ) |>
             leaflet::addLayersControl(
                 baseGroups = c("google-satellite"),
-                overlayGroups = c("PRODES", "Focos Ativos", "Limite município", "Sentinel-2-16D"),
+                overlayGroups = c("Focos Ativos", "Limite município", "PRODES 2023", "Sentinel-2-16D"),
                 options = leaflet::layersControlOptions(collapsed = TRUE),
                 position = "topleft"
             ) |>
-            leaflet:::hideGroup(group = c("PRODES", "Sentinel-2-16D", "Limite município")) |>
+            leaflet:::hideGroup(group = c("PRODES 2023", "Sentinel-2-16D", "Limite município")) |>
             leaflet::addEasyButtonBar(
                 leaflet::easyButton(
                     icon = "fa-globe", title = "Zoom to Level 1",
@@ -235,9 +235,9 @@ function(input, output, session) {
                                color = "#e9ecef", alpha = 0.9) +
             ggplot2::theme_bw() +
             ggplot2::theme(
-                plot.title = ggplot2::element_text(size = 15),
+                plot.title = ggplot2::element_text(size = 15, hjust = 0.5),
                 axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)
             ) +
-            ggplot2::labs(x = "Data", y = "N. de Focos")
+            ggplot2::labs(x = "Data", y = "N. de Focos", title = "Frequência de Focos")
     })
 }
