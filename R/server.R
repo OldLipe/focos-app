@@ -3,9 +3,6 @@ library(shiny)
 library(ggplot2)
 
 function(input, output, session) {
-
-    ## Interactive Map ###########################################
-
     shiny::updateSelectizeInput(
         session = session, inputId = "city", choices = c("", mun_brasil)
     )
