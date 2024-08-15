@@ -138,7 +138,6 @@ function(input, output, session) {
             asset_url <- sprintf(
                 bdc_tms, red, green, blue
             )
-            print(asset_url)
              map |>
                 leaflet::addTiles(
                     urlTemplate = asset_url,
