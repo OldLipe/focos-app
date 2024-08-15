@@ -2,14 +2,13 @@ library(shiny)
 library(leaflet)
 
 navbarPage("Focos", id = "nav",
-
            tabPanel("Interactive map",
                     div(class = "outer",
 
                         tags$head(
                             # Include our custom CSS
-                            includeCSS("styles.css"),
-                            includeScript("gomap.js")
+                            includeCSS("../styles.css"),
+                            includeScript("../gomap.js")
                         ),
 
                         # If not using custom CSS set height of
@@ -35,9 +34,8 @@ navbarPage("Focos", id = "nav",
                                                   min = 0, max = 100,
                                                   value = 20, step = 10,
                                                   post = "%", sep = ","),
-                                      # Plots
-                                      plotOutput("histCentile", height = 200),
-                                      plotOutput("scatterCollegeIncome", height = 250)
+                                      # Plot
+                                      plotOutput("hist", height = 400),
                         ),
                         tags$div(id = "cite", "Trabalho de disciplina - Geoinformática")
                     )

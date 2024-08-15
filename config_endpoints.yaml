@@ -1,0 +1,10 @@
+sources:
+    terrabrasilis:
+        WMS      : "https://terrabrasilis.dpi.inpe.br/geoserver/"
+    queimadas    :
+        WFS      : "https://terrabrasilis.dpi.inpe.br/queimadas/geoserver/"
+    bdc          :
+        TMS      : "https://data.inpe.br/bdc/tms/rgb/WebMercatorQuad/{z}/{x}/{y}.png"
+        STAC     : "https://data.inpe.br/bdc/stac/v1/"
+    google       :
+        TMS      : "https://mt3.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}"

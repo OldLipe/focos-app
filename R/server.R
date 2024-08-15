@@ -1,10 +1,16 @@
 library(leaflet)
 library(shiny)
 library(ggplot2)
+source("data-access.R")
+source("source-fns.R")
+
+# Load municipios data
+municipios_br <- load_municipios()
 
 function(input, output, session) {
+    # Update options
     shiny::updateSelectizeInput(
-        session = session, inputId = "city", choices = c("", mun_brasil)
+        session = session, inputId = "city", choices = c("", municipios_br)
     )
 
     # Create the map
@@ -12,7 +18,7 @@ function(input, output, session) {
         leaflet() |>
             leaflet::setView(lng = -56.0949, lat = -15.5989, zoom = 4) |>
             leaflet::addTiles(
-                urlTemplate = "https://mt3.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}",
+                urlTemplate = .source_url("google", "TMS"),
                 options = leaflet::tileOptions(tms = FALSE),
                 group = "Google Satellite"
             ) |>
@@ -43,16 +49,15 @@ function(input, output, session) {
                 )
             )
     })
-
-
+    # Get municipios extent
     city <- shiny::reactive({
         city <- toupper(input$city)
         if (nzchar(city)) {
-            city <- get_city(city)
+            city <- get_limite_municipio(city)
         }
         city
     })
-
+    # Get municipios foco
     focos <- shiny::reactive({
         start_date <- input$daterange[[1]]
         end_date <- input$daterange[[2]]
@@ -60,14 +65,14 @@ function(input, output, session) {
         focos <- NULL
         if (nzchar(city_name)) {
             focos <- get_focos(
-                city = city_name,
+                mun_nome = city_name,
                 start_date = start_date,
                 end_date = end_date
             )
         }
         focos
     })
-
+    # Get collection items
     stac_items <- shiny::reactive({
         cloud_percent <- input$slider
         start_date <- input$daterange[[1]]
@@ -221,7 +226,7 @@ function(input, output, session) {
         })
     })
 
-    output$histCentile <- renderPlot({
+    output$hist <- renderPlot({
         if (!nzchar(input$city)) {
             return(NULL)
         }

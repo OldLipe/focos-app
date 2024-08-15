@@ -1,7 +1,7 @@
 .config <- function(source) {
-    config_env[["services"]][["souces"]][[source]]
+    config[["sources"]][[source]]
 }
 
-.source_url <- function(source) {
-    .config(source)[["url"]]
+.source_url <- function(source, service) {
+    .config(source)[[service]]
 }
