@@ -1,4 +1,4 @@
-source("source-fns.R")
+source("R/source-fns.R")
 
 get_request <- function(url, path, query) {
     req <- httr2::request(url)

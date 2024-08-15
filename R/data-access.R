@@ -1,4 +1,4 @@
-source("request-fns.R")
+source("R/request-fns.R")
 
 get_limite_municipio <- function(mun_nome) {
     # Format city name to upper case
@@ -45,5 +45,5 @@ get_focos <- function(mun_nome, start_date, end_date, sat_ref = 'AQUA_M-T') {
 }
 
 load_municipios <- function(path) {
-    read.csv("../data/mun.csv")
+    read.csv("data/mun.csv")
 }

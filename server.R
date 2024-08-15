@@ -1,8 +1,8 @@
 library(leaflet)
 library(shiny)
 library(ggplot2)
-source("data-access.R")
-source("source-fns.R")
+source("R/data-access.R")
+source("R/source-fns.R")
 
 # Load municipios data
 municipios_br <- load_municipios()

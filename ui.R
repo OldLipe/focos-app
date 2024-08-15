@@ -7,8 +7,8 @@ navbarPage("Focos", id = "nav",
 
                         tags$head(
                             # Include our custom CSS
-                            includeCSS("../styles.css"),
-                            includeScript("../gomap.js")
+                            includeCSS("css/styles.css"),
+                            includeScript("js/gomap.js")
                         ),
 
                         # If not using custom CSS set height of
