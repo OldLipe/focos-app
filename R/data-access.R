@@ -1,4 +1,5 @@
 source("R/request-fns.R")
+source("R/source-fns.R")
 
 get_limite_municipio <- function(mun_nome) {
     # Format city name to upper case
@@ -42,6 +43,20 @@ get_focos <- function(mun_nome, start_date, end_date, sat_ref = 'AQUA_M-T') {
     resp <- httr2::resp_body_string(resp)
     # Transform to sf object
     sf::st_read(resp, quiet = TRUE)
+}
+
+get_stac_items <- function(collection, datetime, bbox, cloud_percent) {
+    stac_url <- .source_url("bdc", "STAC")
+    rstac::stac(stac_url) |>
+        rstac::stac_search(
+            collections = collection,
+            datetime = datetime,
+            bbox = bbox,
+            limit = 100,
+        ) |>
+        rstac::ext_query("eo:cloud_cover" <= as.numeric(cloud_percent)) |>
+        rstac::post_request() |>
+        rstac:::items_fetch()
 }
 
 load_municipios <- function(path) {

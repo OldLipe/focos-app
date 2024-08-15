@@ -23,12 +23,12 @@ function(input, output, session) {
                 group = "Google Satellite"
             ) |>
             leaflet::addWMSTiles(
-                baseUrl = "https://terrabrasilis.dpi.inpe.br/geoserver/prodes-brasil-nb/ows?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=prodes-brasil-nb%3Aprodes_brasil&STYLES=&WIDTH=256&HEIGHT=256&BBOX=-63.198620,-10.030140,-62.812901,-9.645115&FORMAT=image%2Fpng",
+                baseUrl = .source_url("prodes", "WMS"),
                 layers = "prodes-brasil-nb:prodes_brasil",
                 group = "PRODES 2023"
             ) |>
             leaflet::addLayersControl(
-                baseGroups = c("google-satellite"),
+                baseGroups = "google-satellite",
                 overlayGroups = c("Focos Ativos", "Limite município", "PRODES 2023", "Sentinel-2-16D"),
                 options = leaflet::layersControlOptions(collapsed = TRUE),
                 position = "topleft"
@@ -82,15 +82,12 @@ function(input, output, session) {
         if (any(nzchar(city()))) {
             bbox <- as.numeric(sf::st_bbox(city()))
 
-            stac_items <- rstac::stac("https://data.inpe.br/bdc/stac/v1/") |>
-                rstac::stac_search(
-                    collections = "S2-16D-2", limit = 100,
-                    datetime = paste0(start_date, "/", end_date),
-                    bbox = bbox
-                ) |>
-                rstac::ext_query("eo:cloud_cover" <= as.numeric(cloud_percent)) |>
-                rstac::post_request() |>
-                rstac:::items_fetch()
+            stac_items <- get_stac_items(
+                collection = "S2-16D-2",
+                datetime = paste0(start_date, "/", end_date),
+                bbox = bbox,
+                cloud_percent = cloud_percent
+            )
         }
         stac_items
     })
@@ -134,11 +131,14 @@ function(input, output, session) {
             red <- rstac::assets_url(stac_item, asset_names = "B04")[[1]]
             green <- rstac::assets_url(stac_item, asset_names = "B03")[[1]]
             blue <- rstac::assets_url(stac_item, asset_names = "B02")[[1]]
-            asset_url <- sprintf(
-                "https://data.inpe.br/bdc/tms/rgb/WebMercatorQuad/{z}/{x}/{y}.png?url=%s&url=%s&url=%s&bands=1&bands=2&bands=3&rescale=0,2000&rescale=0,2000&rescale=0,2000",
-                red, green, blue
+            bdc_tms <- paste0(
+                .source_url("bdc", "TMS"),
+                "?url=%s&url=%s&url=%s&bands=1&bands=2&bands=3&rescale=0,2000&rescale=0,2000&rescale=0,2000"
             )
-
+            asset_url <- sprintf(
+                bdc_tms, red, green, blue
+            )
+            print(asset_url)
              map |>
                 leaflet::addTiles(
                     urlTemplate = asset_url,

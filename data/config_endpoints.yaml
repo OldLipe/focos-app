@@ -1,6 +1,6 @@
 sources:
-    terrabrasilis:
-        WMS      : "https://terrabrasilis.dpi.inpe.br/geoserver/"
+    prodes       :
+        WMS      : "https://terrabrasilis.dpi.inpe.br/geoserver/prodes-brasil-nb/ows?SERVICE=WMS&REQUEST=GetMap&VERSION=1.1.1&LAYERS=prodes-brasil-nb%3Aprodes_brasil&STYLES=&WIDTH=256&HEIGHT=256&BBOX=-63.198620,-10.030140,-62.812901,-9.645115&FORMAT=image%2Fpng"
     queimadas    :
         WFS      : "https://terrabrasilis.dpi.inpe.br/queimadas/geoserver/"
     bdc          :
