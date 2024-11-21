@@ -7,7 +7,7 @@
 <!-- badges: end -->
 
 Simple Shiny application that accesses hotspots provided by Queimadas
-project. The WFS, WMS, TMS and STAC services are accessed. The
+project. We access WFS, WMS, TMS and STAC services. The
 interactive visualization was done with a leaflet.
 
 Live example:
